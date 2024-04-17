@@ -1,6 +1,6 @@
 # HTML CSS JS Divider and Merger
 
-This tool allows you to divide a combined HTML file, which includes HTML, CSS, and JavaScript, into separate parts. Additionally, it can merge the individual HTML, CSS, and JS files into a single HTML file.
+This tool allows you to divide a combined HTML file, which includes HTML, CSS, and JavaScript, into separate parts. Additionally, it can merge the individual HTML, CSS, and JS files into a single HTML file and also python code and ruby code  can be divided and can be merged.
 
 ## Features
 
