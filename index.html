@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            border-color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #output {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .output-box {
+            flex-basis: 45%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .output-box h2 {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            margin: 0;
+        }
+
+        .output-box textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: none;
+            background-color: #f9f9f9;
+            resize: none;
+            overflow: auto;
+        }
+
+        .output-box button {
+            width: 100%;
+            padding: 10px;
+            background-color: #555;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .output-box button:hover {
+            background-color: #777;
+        }
+
+        #options {
+            display: flex;
+            gap: 20px;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Code Tool</h1>
+    </header>
+    <main>
+<p>This website provides tools to divide and merge code snippets of various languages.</p>
+        <div id="options">
+            <button onclick="showDivider()">Divide Code</button>
+            <button onclick="showMerger()">Merge Code</button>
+        </div>
+
+        <div id="dividerSection">
+            <input type="file" id="fileInput" onchange="loadFile()">
+            <textarea id="codeInput" placeholder="Enter or upload your code here..."></textarea>
+            <button onclick="divideCode()">Divide Code</button>
+            <section id="output">
+                <div class="output-box">
+                    <h2>HTML Code</h2>
+                    <textarea id="htmlOutputCode" readonly></textarea>
+                    <button onclick="copyCode('htmlOutputCode')">Copy HTML</button>
+                    <a id="downloadHTML" download="index.html"><button>Download HTML</button></a>
+                </div>
+                <div class="output-box">
+                    <h2>CSS Code</h2>
+                    <textarea id="cssOutputCode" readonly></textarea>
+                    <button onclick="copyCode('cssOutputCode')">Copy CSS</button>
+                    <a id="downloadCSS" download="styles.css"><button>Download CSS</button></a>
+                </div>
+                <div class="output-box">
+                    <h2>JavaScript Code</h2>
+                    <textarea id="jsOutputCode" readonly></textarea>
+                    <button onclick="copyCode('jsOutputCode')">Copy JavaScript</button>
+                    <a id="downloadJS" download="script.js"><button>Download JavaScript</button></a>
+                </div>
+                <div class="output-box">
+                    <h2>Python Code</h2>
+                    <textarea id="pythonOutputCode" readonly></textarea>
+                    <button onclick="copyCode('pythonOutputCode')">Copy Python</button>
+                    <a id="downloadPython" download="script.py"><button>Download Python</button></a>
+                </div>
+                <div class="output-box">
+                    <h2>Ruby Code</h2>
+                    <textarea id="rubyOutputCode" readonly></textarea>
+                    <button onclick="copyCode('rubyOutputCode')">Copy Ruby</button>
+                    <a id="downloadRuby" download="script.rb"><button>Download Ruby</button></a>
+                </div>
+            </section>
+        </div>
+        <div id="mergerSection" style="display: none;">
+            <input type="file" id="htmlFile" accept=".html">
+            <textarea id="htmlCode" placeholder="Enter HTML code here..."></textarea>
+            <input type="file" id="cssFile" accept=".css">
+            <textarea id="cssCode" placeholder="Enter CSS code here..."></textarea>
+            <input type="file" id="jsFile" accept=".js">
+            <textarea id="jsCode" placeholder="Enter JavaScript code here..."></textarea>
+            <input type="file" id="pythonFile" accept=".py">
+            <textarea id="pythonCode" placeholder="Enter Python code here..."></textarea>
+            <input type="file" id="rubyFile" accept=".rb">
+            <textarea id="rubyCode" placeholder="Enter Ruby code here..."></textarea>
+            <button onclick="mergeCode()">Merge Code</button>
+            <button onclick="copyMergedCode()">Copy Merged Code</button>
+            <a id="downloadMerged" download="merged_code.txt"><button>Download Merged Code</button></a>
+            <textarea id="mergedCode" placeholder="Merged code will appear here..." readonly></textarea>
+        </div>
+        
+    </main>
+<footer>
+        <p>Designed and built by G.Thangella &copy; 2024. All rights reserved.</p>
+        <p>This website is protected by copyright law. Unauthorized use or modification of the code is prohibited.</p>
+    </footer>
+
+    <script>
+        function loadFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('codeInput').value = event.target.result;
+            };
+            reader.readAsText(file);
+        }
+
+        function divideCode() {
+            const code = document.getElementById('codeInput').value;
+
+            // Regular expressions to match code sections
+            const htmlRegex = /<html[^>]*>[\s\S]*?<\/html>/gi;
+            const cssRegex = /<style[^>]*>[\s\S]*?<\/style>/gi;
+            const jsRegex = /<script[^>]*>[\s\S]*?<\/script>/gi;
+            const pythonRegex = /# Python START([\s\S]*?)# Python END/gi;
+            const rubyRegex = /# Ruby START([\s\S]*?)# Ruby END/gi;
+
+            // Extract code sections
+            const htmlCode = extractSection(code, htmlRegex);
+            const cssCode = extractSection(code, cssRegex);
+            const jsCode = extractSection(code, jsRegex);
+            const pythonCode = extractSection(code, pythonRegex);
+            const rubyCode = extractSection(code, rubyRegex);
+
+            // Display extracted code sections
+            document.getElementById('htmlOutputCode').value = htmlCode;
+            document.getElementById('cssOutputCode').value = cssCode;
+            document.getElementById('jsOutputCode').value = jsCode;
+            document.getElementById('pythonOutputCode').value = pythonCode;
+            document.getElementById('rubyOutputCode').value = rubyCode;
+
+            // Update download links
+            document.getElementById('downloadHTML').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(htmlCode);
+            document.getElementById('downloadCSS').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(cssCode);
+            document.getElementById('downloadJS').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsCode);
+            document.getElementById('downloadPython').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(pythonCode);
+            document.getElementById('downloadRuby').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(rubyCode);
+        }
+
+        function extractSection(code, regex) {
+            const matches = code.match(regex);
+            return matches ? matches.join('\n\n') : '';
+        }
+
+        function mergeCode() {
+            let mergedCode = '';
+
+            // Merge HTML code
+            const htmlFile = document.getElementById('htmlFile').files[0];
+            if (htmlFile) {
+                mergedCode += '// HTML START\n';
+                readFile(htmlFile, function(content) {
+                    mergedCode += content + '\n';
+                    mergedCode += '// HTML END\n\n';
+                    mergeCSS();
+                });
+            } else {
+                const htmlCode = document.getElementById('htmlCode').value.trim();
+                if (htmlCode) {
+                    mergedCode += '// HTML START\n';
+                    mergedCode += htmlCode + '\n';
+                    mergedCode += '// HTML END\n\n';
+                    mergeCSS();
+                } else {
+                    mergeCSS();
+                }
+            }
+
+            function mergeCSS() {
+                // Merge CSS code
+                const cssFile = document.getElementById('cssFile').files[0];
+                if (cssFile) {
+                    mergedCode += '/* CSS START */\n';
+                    readFile(cssFile, function(content) {
+                        mergedCode += content + '\n';
+                        mergedCode += '/* CSS END */\n\n';
+                        mergeJS();
+                    });
+                } else {
+                    const cssCode = document.getElementById('cssCode').value.trim();
+                    if (cssCode) {
+                        mergedCode += '/* CSS START */\n';
+                        mergedCode += cssCode + '\n';
+                        mergedCode += '/* CSS END */\n\n';
+                        mergeJS();
+                    } else {
+                        mergeJS();
+                    }
+                }
+            }
+
+            function mergeJS() {
+                // Merge JavaScript code
+                const jsFile = document.getElementById('jsFile').files[0];
+                if (jsFile) {
+                    mergedCode += '// JavaScript START\n';
+                    readFile(jsFile, function(content) {
+                        mergedCode += content + '\n';
+                        mergedCode += '// JavaScript END\n\n';
+                        mergePython();
+                    });
+                } else {
+                    const jsCode = document.getElementById('jsCode').value.trim();
+                    if (jsCode) {
+                        mergedCode += '// JavaScript START\n';
+                        mergedCode += jsCode + '\n';
+                        mergedCode += '// JavaScript END\n\n';
+                        mergePython();
+                    } else {
+                        mergePython();
+                    }
+                }
+            }
+
+            function mergePython() {
+                // Merge Python code
+                const pythonFile = document.getElementById('pythonFile').files[0];
+                if (pythonFile) {
+                    mergedCode += '# Python START\n';
+                    readFile(pythonFile, function(content) {
+                        mergedCode += content + '\n';
+                        mergedCode += '# Python END\n\n';
+                        mergeRuby();
+                    });
+                } else {
+                    const pythonCode = document.getElementById('pythonCode').value.trim();
+                    if (pythonCode) {
+                        mergedCode += '# Python START\n';
+                        mergedCode += pythonCode + '\n';
+                        mergedCode += '# Python END\n\n';
+                        mergeRuby();
+                    } else {
+                        mergeRuby();
+                    }
+                }
+            }
+
+            function mergeRuby() {
+                // Merge Ruby code
+                const rubyFile = document.getElementById('rubyFile').files[0];
+                if (rubyFile) {
+                    mergedCode += '# Ruby START\n';
+                    readFile(rubyFile, function(content) {
+                        mergedCode += content + '\n';
+                        mergedCode += '# Ruby END\n\n';
+                        document.getElementById('mergedCode').value = mergedCode;
+                        updateDownloadLink(mergedCode);
+                    });
+                } else {
+                    const rubyCode = document.getElementById('rubyCode').value.trim();
+                    if (rubyCode) {
+                        mergedCode += '# Ruby START\n';
+                        mergedCode += rubyCode + '\n';
+                        mergedCode += '# Ruby END\n\n';
+                    }
+                    document.getElementById('mergedCode').value = mergedCode;
+                    updateDownloadLink(mergedCode);
+                }
+            }
+        }
+
+        function copyCode(id) {
+            const textarea = document.getElementById(id);
+            textarea.select();
+            document.execCommand('copy');
+        }
+
+        function copyMergedCode() {
+            const textarea = document.getElementById('mergedCode');
+            textarea.select();
+            document.execCommand('copy');
+        }
+
+        function updateDownloadLink(mergedCode) {
+            const downloadMerged = document.getElementById('downloadMerged');
+            const blob = new Blob([mergedCode], { type: 'text/plain' });
+            downloadMerged.href = URL.createObjectURL(blob);
+        }
+
+        function showDivider() {
+            document.getElementById('dividerSection').style.display = 'block';
+            document.getElementById('mergerSection').style.display = 'none';
+        }
+
+        function showMerger() {
+            document.getElementById('dividerSection').style.display = 'none';
+            document.getElementById('mergerSection').style.display = 'block';
+        }
+
+        function readFile(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                callback(e.target.result);
+            }
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
