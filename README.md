@@ -12,7 +12,7 @@ This tool allows you to divide a combined HTML file, which includes HTML, CSS, a
 
 ## Contributor
 
-- [G.Thangella](https://github.com/your_username)
+- [G.Thangella](https://github.com/GTK-THANGELLA-17)
 
 ## License
 
