@@ -9,9 +9,6 @@ This tool allows you to divide a combined HTML file, which includes HTML, CSS, a
 - Easy-to-use command-line interface.
 - Supports customization options.
 
-## Installation
-
-```
 
 ## Contributor
 
