@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Tool</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,7 +17,7 @@
         }
 
         header {
-            background-color: #333;
+            background-color: #F98866;
             color: #fff;
             padding: 20px;
             text-align: center;
@@ -126,6 +127,65 @@
         footer p {
             margin: 5px 0;
         }
+        /* Icon animation */
+        @keyframes iconRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .icon {
+            animation: iconRotate 2s linear infinite;
+        }
+
+ /* Adjust icon size */
+        .icon-small {
+            font-size: 20px;
+            margin-right: 5px;
+        }
+    
+
+/* CSS for merge section */
+.merge-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.icon-small {
+    margin-right: 10px;
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.merge-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.merge-button:hover {
+    background-color: #555;
+    animation: pulse 0.5s;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
     </style>
 </head>
 <body>
@@ -134,64 +194,87 @@
     </header>
     <main>
 <p>This website provides tools to divide and merge code snippets of various languages.</p>
-        <div id="options">
-            <button onclick="showDivider()">Divide Code</button>
-            <button onclick="showMerger()">Merge Code</button>
+         <div id="options">
+            <button onclick="showDivider()">
+                <i class="fas fa-code icon"></i> Divide Code
+            </button>
+            <button onclick="showMerger()">
+                <i class="fas fa-compress-arrows-alt icon"></i> Merge Code
+            </button>
         </div>
 
-        <div id="dividerSection">
+         <!-- Divider Section -->
+        <div id="dividerSection" style="display: none;">
             <input type="file" id="fileInput" onchange="loadFile()">
             <textarea id="codeInput" placeholder="Enter or upload your code here..."></textarea>
             <button onclick="divideCode()">Divide Code</button>
             <section id="output">
+                <!-- Output sections -->
                 <div class="output-box">
-                    <h2>HTML Code</h2>
+                    <h2><i class="fab fa-html5 icon-small"></i>HTML Code</h2>
                     <textarea id="htmlOutputCode" readonly></textarea>
-                    <button onclick="copyCode('htmlOutputCode')">Copy HTML</button>
-                    <a id="downloadHTML" download="index.html"><button>Download HTML</button></a>
+                    <button onclick="copyCode('htmlOutputCode')"><i class="far fa-copy"></i> Copy HTML</button>
+                    <a id="downloadHTML" download="index.html"><button><i class="fas fa-download"></i> Download HTML</button></a>
                 </div>
                 <div class="output-box">
-                    <h2>CSS Code</h2>
+                    <h2><i class="fab fa-css3-alt icon-small"></i>CSS Code</h2>
                     <textarea id="cssOutputCode" readonly></textarea>
-                    <button onclick="copyCode('cssOutputCode')">Copy CSS</button>
-                    <a id="downloadCSS" download="styles.css"><button>Download CSS</button></a>
+                    <button onclick="copyCode('cssOutputCode')"><i class="far fa-copy"></i> Copy CSS</button>
+                    <a id="downloadCSS" download="styles.css"><button><i class="fas fa-download"></i> Download CSS</button></a>
                 </div>
                 <div class="output-box">
-                    <h2>JavaScript Code</h2>
+                    <h2><i class="fab fa-js icon-small"></i>JavaScript Code</h2>
                     <textarea id="jsOutputCode" readonly></textarea>
-                    <button onclick="copyCode('jsOutputCode')">Copy JavaScript</button>
-                    <a id="downloadJS" download="script.js"><button>Download JavaScript</button></a>
+                    <button onclick="copyCode('jsOutputCode')"><i class="far fa-copy"></i> Copy JavaScript</button>
+                    <a id="downloadJS" download="script.js"><button><i class="fas fa-download"></i> Download JavaScript</button></a>
                 </div>
                 <div class="output-box">
-                    <h2>Python Code</h2>
+                    <h2><i class="fab fa-python icon-small"></i>Python Code</h2>
                     <textarea id="pythonOutputCode" readonly></textarea>
-                    <button onclick="copyCode('pythonOutputCode')">Copy Python</button>
-                    <a id="downloadPython" download="script.py"><button>Download Python</button></a>
+                    <button onclick="copyCode('pythonOutputCode')"><i class="far fa-copy"></i> Copy Python</button>
+                    <a id="downloadPython" download="script.py"><button><i class="fas fa-download"></i> Download Python</button></a>
                 </div>
                 <div class="output-box">
-                    <h2>Ruby Code</h2>
+                    <h2><i class="fas fa-gem icon-small"></i>Ruby Code</h2>
                     <textarea id="rubyOutputCode" readonly></textarea>
-                    <button onclick="copyCode('rubyOutputCode')">Copy Ruby</button>
-                    <a id="downloadRuby" download="script.rb"><button>Download Ruby</button></a>
+                    <button onclick="copyCode('rubyOutputCode')"><i class="far fa-copy"></i> Copy Ruby</button>
+                    <a id="downloadRuby" download="script.rb"><button><i class="fas fa-download"></i> Download Ruby</button></a>
                 </div>
             </section>
         </div>
-        <div id="mergerSection" style="display: none;">
-            <input type="file" id="htmlFile" accept=".html">
-            <textarea id="htmlCode" placeholder="Enter HTML code here..."></textarea>
-            <input type="file" id="cssFile" accept=".css">
-            <textarea id="cssCode" placeholder="Enter CSS code here..."></textarea>
-            <input type="file" id="jsFile" accept=".js">
-            <textarea id="jsCode" placeholder="Enter JavaScript code here..."></textarea>
-            <input type="file" id="pythonFile" accept=".py">
-            <textarea id="pythonCode" placeholder="Enter Python code here..."></textarea>
-            <input type="file" id="rubyFile" accept=".rb">
-            <textarea id="rubyCode" placeholder="Enter Ruby code here..."></textarea>
-            <button onclick="mergeCode()">Merge Code</button>
-            <button onclick="copyMergedCode()">Copy Merged Code</button>
-            <a id="downloadMerged" download="merged_code.txt"><button>Download Merged Code</button></a>
-            <textarea id="mergedCode" placeholder="Merged code will appear here..." readonly></textarea>
-        </div>
+        <!-- Merger Section -->
+<div id="mergerSection" style="display: none;">
+    <div class="merge-input">
+        <i class="fas fa-file-code icon-small"></i>
+        <input type="file" id="htmlFile" accept=".html">
+    </div>
+    <textarea id="htmlCode" placeholder="Enter HTML code here..."></textarea>
+    <div class="merge-input">
+        <i class="fab fa-css3-alt icon-small"></i>
+        <input type="file" id="cssFile" accept=".css">
+    </div>
+    <textarea id="cssCode" placeholder="Enter CSS code here..."></textarea>
+    <div class="merge-input">
+        <i class="fab fa-js icon-small"></i>
+        <input type="file" id="jsFile" accept=".js">
+    </div>
+    <textarea id="jsCode" placeholder="Enter JavaScript code here..."></textarea>
+    <div class="merge-input">
+        <i class="fab fa-python icon-small"></i>
+        <input type="file" id="pythonFile" accept=".py">
+    </div>
+    <textarea id="pythonCode" placeholder="Enter Python code here..."></textarea>
+    <div class="merge-input">
+        <i class="fas fa-gem icon-small"></i>
+        <input type="file" id="rubyFile" accept=".rb">
+    </div>
+    <textarea id="rubyCode" placeholder="Enter Ruby code here..."></textarea>
+    <button onclick="mergeCode()" class="merge-button">Merge Code</button>
+    <button onclick="copyMergedCode()" class="merge-button">Copy Merged Code</button>
+    <a id="downloadMerged" download="merged_code.txt" class="merge-button"><button>Download Merged Code</button></a>
+    <textarea id="mergedCode" placeholder="Merged code will appear here..." readonly></textarea>
+</div>
+
         
     </main>
 <footer>
@@ -386,6 +469,7 @@
             document.getElementById('dividerSection').style.display = 'block';
             document.getElementById('mergerSection').style.display = 'none';
         }
+
 
         function showMerger() {
             document.getElementById('dividerSection').style.display = 'none';
