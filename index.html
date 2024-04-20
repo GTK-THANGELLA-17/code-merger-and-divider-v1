@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Code Tool</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -137,54 +137,84 @@
             animation: iconRotate 2s linear infinite;
         }
 
- /* Adjust icon size */
+        /* Adjust icon size */
         .icon-small {
             font-size: 20px;
             margin-right: 5px;
         }
-    
 
-/* CSS for merge section */
-.merge-input {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    position: relative;
-}
+        /* CSS for merge section */
+        .merge-input {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
 
-.icon-small {
-    margin-right: 10px;
-    font-size: 1.5rem;
-    color: #555;
-}
+        .merge-button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
 
-.merge-button {
-    padding: 10px 20px;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    margin-top: 10px;
-}
+        .merge-button:hover {
+            background-color: #555;
+            animation: pulse 0.5s;
+        }
 
-.merge-button:hover {
-    background-color: #555;
-    animation: pulse 0.5s;
-}
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
+    /* CSS for code differencer */
+        .difference-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            overflow: auto;
+        }
+
+        .added {
+            background-color: #d8ffd4; /* Light green */
+        }
+
+        .removed {
+            background-color: #ffd8d4; /* Light red */
+        }
+
+        .line-number {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+            color: #aaa;
+        }
+
+        .line {
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .added .line {
+            background-color: #d8ffd4; /* Light green */
+        }
+
+        .removed .line {
+            background-color: #ffd8d4; /* Light red */
+        }
 
     </style>
 </head>
@@ -193,17 +223,20 @@
         <h1>Code Tool</h1>
     </header>
     <main>
-<p>This website provides tools to divide and merge code snippets of various languages.</p>
-         <div id="options">
+        <p>This website provides tools to divide and merge and Differencer code snippets of various languages.</p>
+        <div id="options">
             <button onclick="showDivider()">
                 <i class="fas fa-code icon"></i> Divide Code
             </button>
             <button onclick="showMerger()">
                 <i class="fas fa-compress-arrows-alt icon"></i> Merge Code
             </button>
+            <button onclick="showDifferencer()">
+                <i class="fas fa-code-branch icon"></i> Code Differencer
+            </button>
         </div>
 
-         <!-- Divider Section -->
+        <!-- Divider Section -->
         <div id="dividerSection" style="display: none;">
             <input type="file" id="fileInput" onchange="loadFile()">
             <textarea id="codeInput" placeholder="Enter or upload your code here..."></textarea>
@@ -242,47 +275,58 @@
                 </div>
             </section>
         </div>
-        <!-- Merger Section -->
-<div id="mergerSection" style="display: none;">
-    <div class="merge-input">
-        <i class="fas fa-file-code icon-small"></i>
-        <input type="file" id="htmlFile" accept=".html">
-    </div>
-    <textarea id="htmlCode" placeholder="Enter HTML code here..."></textarea>
-    <div class="merge-input">
-        <i class="fab fa-css3-alt icon-small"></i>
-        <input type="file" id="cssFile" accept=".css">
-    </div>
-    <textarea id="cssCode" placeholder="Enter CSS code here..."></textarea>
-    <div class="merge-input">
-        <i class="fab fa-js icon-small"></i>
-        <input type="file" id="jsFile" accept=".js">
-    </div>
-    <textarea id="jsCode" placeholder="Enter JavaScript code here..."></textarea>
-    <div class="merge-input">
-        <i class="fab fa-python icon-small"></i>
-        <input type="file" id="pythonFile" accept=".py">
-    </div>
-    <textarea id="pythonCode" placeholder="Enter Python code here..."></textarea>
-    <div class="merge-input">
-        <i class="fas fa-gem icon-small"></i>
-        <input type="file" id="rubyFile" accept=".rb">
-    </div>
-    <textarea id="rubyCode" placeholder="Enter Ruby code here..."></textarea>
-    <button onclick="mergeCode()" class="merge-button">Merge Code</button>
-    <button onclick="copyMergedCode()" class="merge-button">Copy Merged Code</button>
-    <a id="downloadMerged" download="merged_code.txt" class="merge-button"><button>Download Merged Code</button></a>
-    <textarea id="mergedCode" placeholder="Merged code will appear here..." readonly></textarea>
-</div>
 
-        
+        <!-- Merger Section -->
+        <div id="mergerSection" style="display: none;">
+            <div class="merge-input">
+                <i class="fas fa-file-code icon-small"></i>
+                <input type="file" id="htmlFile" accept=".html">
+            </div>
+            <textarea id="htmlCode" placeholder="Enter HTML code here..."></textarea>
+            <div class="merge-input">
+                <i class="fab fa-css3-alt icon-small"></i>
+                <input type="file" id="cssFile" accept=".css">
+            </div>
+            <textarea id="cssCode" placeholder="Enter CSS code here..."></textarea>
+            <div class="merge-input">
+                <i class="fab fa-js icon-small"></i>
+                <input type="file" id="jsFile" accept=".js">
+            </div>
+            <textarea id="jsCode" placeholder="Enter JavaScript code here..."></textarea>
+            <div class="merge-input">
+                <i class="fab fa-python icon-small"></i>
+                <input type="file" id="pythonFile" accept=".py">
+            </div>
+            <textarea id="pythonCode" placeholder="Enter Python code here..."></textarea>
+            <div class="merge-input">
+                <i class="fas fa-gem icon-small"></i>
+                <input type="file" id="rubyFile" accept=".rb">
+            </div>
+            <textarea id="rubyCode" placeholder="Enter Ruby code here..."></textarea>
+            <button onclick="mergeCode()" class="merge-button">Merge Code</button>
+            <button onclick="copyMergedCode()" class="merge-button">Copy Merged Code</button>
+            <a id="downloadMerged" download="merged_code.txt" class="merge-button"><button>Download Merged Code</button></a>
+            <textarea id="mergedCode" placeholder="Merged code will appear here..." readonly></textarea>
+        </div>
+
+        <!-- Code Differencer Section -->
+        <div id="differencerSection" style="display: none;">
+    <textarea id="oldCode" placeholder="Paste original code here..."></textarea>
+    <textarea id="newCode" placeholder="Paste updated code here..."></textarea>
+    <button onclick="showDifferences()"><i class="fas fa-eye"></i> Show Differences</button>
+    <button onclick="copyDifferences()"><i class="fas fa-copy"></i> Copy Differences</button>
+    <button onclick="downloadDifferences()"><i class="fas fa-download"></i> Download Differences</button>
+    <div id="codeDifferences" class="difference-box"></div>
+    </div>
     </main>
-<footer>
+    <footer>
         <p>Designed and built by G.Thangella &copy; 2024. All rights reserved.</p>
         <p>This website is protected by copyright law. Unauthorized use or modification of the code is prohibited.</p>
     </footer>
 
     <script>
+        // Existing JavaScript functions
+
         function loadFile() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
@@ -468,21 +512,133 @@
         function showDivider() {
             document.getElementById('dividerSection').style.display = 'block';
             document.getElementById('mergerSection').style.display = 'none';
+            document.getElementById('differencerSection').style.display = 'none'; // Hide code differencer
         }
-
 
         function showMerger() {
             document.getElementById('dividerSection').style.display = 'none';
             document.getElementById('mergerSection').style.display = 'block';
+            document.getElementById('differencerSection').style.display = 'none'; // Hide code differencer
         }
 
-        function readFile(file, callback) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                callback(e.target.result);
-            }
-            reader.readAsText(file);
+        function showDifferencer() {
+            document.getElementById('dividerSection').style.display = 'none';
+            document.getElementById('mergerSection').style.display = 'none';
+            document.getElementById('differencerSection').style.display = 'block'; // Show code differencer
         }
+
+        function compareCode(oldCode, newCode) {
+        const oldLines = oldCode.split('\n');
+        const newLines = newCode.split('\n');
+        let diffHtml = '<table class="difference-table"><tbody>';
+
+        for (let i = 0; i < Math.max(oldLines.length, newLines.length); i++) {
+            diffHtml += '<tr>';
+            diffHtml += `<td class="line-number">${i + 1}</td>`;
+
+            if (oldLines[i] === newLines[i]) {
+                diffHtml += `<td class="code">${escapeHtml(oldLines[i])}</td>`;
+                diffHtml += `<td class="code">${escapeHtml(newLines[i])}</td>`;
+            } else {
+                if (oldLines[i]) {
+                    diffHtml += `<td class="removed">${escapeHtml(oldLines[i])}</td>`;
+                } else {
+                    diffHtml += `<td class="removed"></td>`;
+                }
+                if (newLines[i]) {
+                    diffHtml += `<td class="added">${escapeHtml(newLines[i])}</td>`;
+                } else {
+                    diffHtml += `<td class="added"></td>`;
+                }
+            }
+
+            diffHtml += '</tr>';
+        }
+
+        diffHtml += '</tbody></table>';
+        return diffHtml;
+    }
+
+    function escapeHtml(html) {
+        return html.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+   function showDifferences() {
+    const oldCode = document.getElementById('oldCode').value;
+    const newCode = document.getElementById('newCode').value;
+    let differences = '';
+
+    // Structure differences with swap buttons
+    differences += `<div class="swap-buttons">
+                        <button onclick="swapCodes()">Swap</button>
+                        <button onclick="resetCodes()">Reset</button>
+                    </div>`;
+
+    // Structure differences with difference box
+    differences += `<div class="difference-box">${compareCode(oldCode, newCode)}</div>`;
+
+    // Set HTML content
+    document.getElementById('codeDifferences').innerHTML = differences;
+}
+
+function downloadDifferences() {
+    const differences = document.getElementById('codeDifferences').innerText;
+    const blob = new Blob([differences], { type: 'text/plain' });
+    const downloadLink = document.createElement('a');
+    downloadLink.href = URL.createObjectURL(blob);
+    downloadLink.download = 'code_differences.txt';
+    downloadLink.click();
+}
+
+function copyDifferences() {
+    const differences = document.getElementById('codeDifferences').innerText;
+    navigator.clipboard.writeText(differences)
+        .then(() => {
+            alert('Differences copied to clipboard');
+        })
+        .catch(err => {
+            console.error('Failed to copy differences: ', err);
+        });
+}
+
+function swapCodes() {
+    const oldCode = document.getElementById('oldCode').value;
+    const newCode = document.getElementById('newCode').value;
+    
+    document.getElementById('oldCode').value = newCode;
+    document.getElementById('newCode').value = oldCode;
+}
+
+function resetCodes() {
+    document.getElementById('oldCode').value = '';
+    document.getElementById('newCode').value = '';
+}
+
+function loadOldCodeFile() {
+            const fileInput = document.getElementById('oldCodeFile');
+            const file = fileInput.files[0];
+            readFile(file, function (content) {
+                document.getElementById('oldCode').value = content;
+            });
+        }
+
+        function loadNewCodeFile() {
+            const fileInput = document.getElementById('newCodeFile');
+            const file = fileInput.files[0];
+            readFile(file, function (content) {
+                document.getElementById('newCode').value = content;
+            });
+        }
+
+
+function readFile(file, callback) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        callback(event.target.result);
+    };
+    reader.readAsText(file);
+}
+
     </script>
 </body>
 </html>
